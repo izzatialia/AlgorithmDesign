@@ -57,7 +57,7 @@ int main()
     inputFile.open(filePath);
 
     ofstream os;
-    string outputFilePath = "output.txt";
+    string outputFilePath = "set1_output.txt";
     os.open(outputFilePath);
 
     if (inputFile.is_open()){
