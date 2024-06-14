@@ -8,7 +8,9 @@ using namespace std;
 
 //initialize the size of the array to be compatible to hold the dataset
 vector<int> H;
+//int heapSize = H.size();
 int heapSize = -1;
+
 
 //Declaring functions
 
@@ -63,10 +65,11 @@ void shiftDown(int i)
     }
 }
 
-void enqueue(int p)
+void enqueue(long long int p)
 {
-    heapSize += 1;
+    // heapSize += 1;
     H.push_back(p);
+    heapSize = H.size() - 1;
     //compare to parents, if larger shift up
     if (p > H[parent(p)]){
         shiftUp(heapSize);
@@ -88,17 +91,28 @@ void heapify()
     }
 }
 
-void heapsort()
+// void printArrayOutputFile(vector<int>& H, ostream& os)
+// {
+//     //print to output file
+//     for (int i = 0; i < heapSize; i++){
+//         os << H[i] << " ";
+//     }
+//     os << endl;
+//     cout << endl;
+// }
+
+void heapsort(vector<int>& H)
 {
+    heapSize = H.size() - 1;
     heapify();
-    for (int i = heapSize; i >= 1; i--)
+    for (int i = heapSize; i > 0; i--)
     {
         swap(H[0], H[i]);
         heapSize--;
         shiftDown(0);
 
         // Print the updated queue
-        cout << "Priority Queue (after iteration " << i << "): ";
+        cout << "Priority Queue : ";
         for (int k = 0; k <= H.size() - 1; k++){
             cout << H[k] << " ";
         }
@@ -112,21 +126,38 @@ void heapsort()
     // }
     // cout << endl;
     
-    //heapSize = H.size() - 1;
+    heapSize = H.size() - 1;
 }
 
 int main()
 {
-    // ifstream inputFile("C:\\Users\\IZZATI ALIA.LAPTOP-ERD37JJV\\Downloads\\ALGORITHM DESIGN\\Assignment\\Q1\\d1\\set_1.txt");
-    // if (!inputFile) {
-    //     std::cerr << "Error opening file!\n";
+    // ifstream inputFile;
+    // string filePath = "C:\\Users\\IZZATI ALIA.LAPTOP-ERD37JJV\\Downloads\\ALGORITHM DESIGN\\Assignment\\Q1\\d1\\set_1.txt";
+    // inputFile.open(filePath);
+
+    // ofstream os;
+    // string outputFilePath = "output.txt";
+    // os.open(outputFilePath);
+    
+
+    // if (inputFile.is_open()){
+    //     int num;
+    //     while (inputFile >> num) {
+    //         enqueue(num); // assuming H is a vector<int>
+    //     }
+    //     inputFile.close();
+    // }
+    // else {
+    //     std::cerr << "Unable to open file " << filePath << std::endl;
     //     return 1;
     // }
-    
-    // int num;
-    // while (inputFile >> num) {
-    //     enqueue(num);
-    // }
+
+    // Print the queue after every insertion
+    cout << " Priority Queue (enqueue): ";
+    for (int k = 0; k <= heapSize; k++){
+        cout << H[k] << " ";
+    }
+    cout << endl;
 
     auto startTimeEnqueue = chrono::high_resolution_clock::now();      //Record start time
 
@@ -150,7 +181,7 @@ int main()
 
     auto startTimeHeapsort = chrono::high_resolution_clock::now();      //Record start time
 
-    heapsort();
+    heapsort(H);
 
     auto endTimeHeapsort = chrono::high_resolution_clock::now();      //Record end time
 
@@ -158,6 +189,20 @@ int main()
     auto durationHeapsortTime = chrono::duration_cast<chrono::milliseconds>(endTimeHeapsort - startTimeHeapsort).count();
     cout << "Execution time : " << durationHeapsortTime << "ms" << endl;
 
+    //  // Save output to another text file
+    // if (os.is_open()) {
+    //     os << "\n";
+    //     os << "Sorted array: ";
+    //     printArrayOutputFile(H, os);
+    //     os << "\n";
+
+    //     os << "Execution time: " << durationHeapsortTime << "ms" << endl;
+    //     os.close();
+    // } else {
+    //     std::cerr << "Unable to open file " << outputFilePath << std::endl;
+    //     return 1;
+    // }
+    
     // inputFile.close();
     return 0;
 }
